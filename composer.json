@@ -1,0 +1,31 @@
+{
+    "name": "sadiq/filament-gmap-location-picker",
+    "description": "A Filament field to enter and update latitude longitude based on map selection",
+    "license": "MIT",
+    "homepage": "https://github.com/s-sadiq/filament-gmap-location-picker",
+    "support": {
+        "issues": "https://github.com/s-sadiq/filament-gmap-location-picker/issues",
+        "source": "https://github.com/s-sadiq/filament-gmap-location-picker"
+    },
+    "require": {
+        "php": "^7.4|^8.0",
+        "filament/filament": "^1.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sadiq\\GMapLocationPicker\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Sadiq\\GMapLocationPicker\\GmapLocationPickerServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
