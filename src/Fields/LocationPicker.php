@@ -57,7 +57,7 @@ class LocationPicker extends Field
     public function mapControls(array $controls)
     {
         $this->configure(function () use ($controls) {
-            $this->controls = $controls;
+            $this->controls = array_merge($this->controls, $controls);
         });
 
         return $this;

@@ -8,7 +8,6 @@
     function googleMapPicker(config) {
     return {
         value: config.value,
-        id: config.id,
         zoom: config.zoom,
         init: function () {
             var center = {
@@ -16,7 +15,7 @@
                 lng: this?.value?.lng || 0
             }
 
-            var map = new google.maps.Map(document.getElementById('map-' + config.id), {
+            var map = new google.maps.Map(this.$refs.map, {
                 center: center,
                 zoom: this.zoom,
                 zoomControl: false,
@@ -33,7 +32,7 @@
             });
 
             if(config.controls.searchBoxControl) {
-                const input = document.getElementById("pac-input");
+                const input = this.$refs.pacinput;
                 const searchBox = new google.maps.places.SearchBox(input);
                 map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
                 searchBox.addListener("places_changed", () => {
@@ -54,21 +53,25 @@
 </script>
 
 @endpushonce
-<x-forms::field-group :column-span="$formComponent->getColumnSpan()" :error-key="$formComponent->getName()"
-    :for="$formComponent->getId()" :help-message="$formComponent->getHelpMessage()" :hint="$formComponent->getHint()"
-    :label="$formComponent->getLabel()" :required="$formComponent->isRequired()">
+<x-forms::field-group 
+    :column-span="$formComponent->getColumnSpan()" 
+    :error-key="$formComponent->getName()"
+    :for="$formComponent->getId()" 
+    :help-message="$formComponent->getHelpMessage()" 
+    :hint="$formComponent->getHint()"
+    :label="$formComponent->getLabel()" 
+    :required="$formComponent->isRequired()">
 
     <div wire:ignore x-data="googleMapPicker({
             @if (Str::of($formComponent->getBindingAttribute())->startsWith('wire:model'))
                 value: @entangle($formComponent->getName()){{ Str::of($formComponent->getBindingAttribute())->after('wire:model') }},
             @endif
-            id: '{{$formComponent->getId()}}',
             zoom: {{$formComponent->getDefaultZoom()}},
             controls: {{$formComponent->getMapControls()}}
-        })" id="{{ $formComponent->getId() }}" x-init="init()">
+        })" x-init="init()">
         @if($formComponent->isSearchBoxControlEnabled())
-        <input id="pac-input" type="text" placeholder="Search Box" />
+        <input x-ref="pacinput" type="text" placeholder="Search Box" />
         @endif
-        <div id="{{ 'map-' . $formComponent->getId() }}" class="w-full" style="min-height: 40vh"></div>
+        <div x-ref="map" class="w-full" style="min-height: 40vh"></div>
     </div>
 </x-forms::field-group>
